@@ -2,7 +2,6 @@ import requests
 import time
 
 API_URL = 'https://api.telegram.org/bot'
-API_CATS_URL = 'https://api.thecatapi.com/v1/images/search'
 BOT_TOKEN = '6991693139:AAG17hXLvCa_uNym25JCdsrvXri4J7zYAug'
 ERROR_TEXT = 'ERROR_404'
 
