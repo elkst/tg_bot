@@ -61,5 +61,21 @@ while counter < 100:
             if 'voice' in result['message']:
                 send_message(chat_id, 'Ого, ты мне прислал голосовое сообщение!')
 
+            # Обработчик файлов
+            if 'document' in result['message']:
+                send_message(chat_id, 'Ого, ты мне прислал файл!')
+
+            # Обработчик геопозиции
+            if 'location' in result['message']:
+                send_message(chat_id, 'Ого, ты мне прислал геопозицию!')
+
+            # Обработчик музыки
+            if 'audio' in result['message']:
+                send_message(chat_id, 'Ого, ты мне прислал музыку!')
+
+            # Обработчик контактов
+            if 'contact' in result['message']:
+                send_message(chat_id, 'Ого, ты мне прислал контакт!')
+
     time.sleep(1)
     counter += 1
