@@ -77,5 +77,6 @@ while counter < 100:
             if 'contact' in result['message']:
                 send_message(chat_id, 'Ого, ты мне прислал контакт!')
 
+
     time.sleep(1)
     counter += 1
