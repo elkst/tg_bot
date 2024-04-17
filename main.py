@@ -80,7 +80,7 @@ while counter < 100:
             if 'contact' in result['message']:
                 send_message(chat_id, 'Ого, ты мне прислал контакт!')
 
-                # Обработчик контактов
+            # Обработчик видеосообщений
             if 'video_note' in result['message']:
                 send_message(chat_id, 'Ого, ты мне прислал видеосообщение!!')
 
