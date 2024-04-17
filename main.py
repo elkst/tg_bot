@@ -26,6 +26,9 @@ def send_video(chat_id, video_url):
 def send_voice(chat_id, voice_url):
     requests.get(f'{API_URL}{BOT_TOKEN}/sendVoice?chat_id={chat_id}&voice={voice_url}')
 
+def send_video_note(chat_id, note_url):
+    requests.get(f'{API_URL}{BOT_TOKEN}/sendVideoNote?chat_id={chat_id}&note={note_url}')
+
 
 while counter < 100:
     print('attempt =', counter)
@@ -77,6 +80,9 @@ while counter < 100:
             if 'contact' in result['message']:
                 send_message(chat_id, 'Ого, ты мне прислал контакт!')
 
+                # Обработчик контактов
+            if 'video_note' in result['message']:
+                send_message(chat_id, 'Ого, ты мне прислал видеосообщение!!')
 
     time.sleep(1)
     counter += 1
