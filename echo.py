@@ -54,6 +54,7 @@ async def sand_sticker_echo(message: types.Message):
     await bot.send_sticker(message.chat.id, message.sticker.file_id)
 
 # Обработчик для видео
+
 async def sand_video_echo(message: types.Message):
     # Отправляем видео обратно пользователю
     await bot.send_video(message.chat.id, message.video.file_id)
