@@ -2,10 +2,6 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
 from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
-import logging
-
-# Включаем логирование
-logging.basicConfig(level=logging.INFO)
 
 # Токен бота
 BOT_TOKEN = '6991693139:AAGOoRXqVOq42sfrYA0oyYDCc42uQGiHZAI'  # Замените на ваш токен
@@ -30,11 +26,11 @@ keyboard: ReplyKeyboardMarkup = kb_builder.as_markup(
     one_time_keyboard=True
 )
 
-# Опросные вопросы и варианты ответов
+# Опросные вопросы
 survey_questions = [
-    ("Какой ваш любимый цвет?", ["Красный", "Синий", "Зеленый"]),
-    ("Какой ваш любимый сезон?", ["Весна", "Лето", "Осень"]),
-    ("Какой ваш любимый спорт?", ["Футбол", "Теннис", "Баскетбол"]),
+    "Какой ваш любимый цвет?",
+    "Какой ваш любимый сезон?",
+    "Какой ваш любимый спорт?"
 ]
 
 # Викторинные вопросы, варианты ответов и правильные ответы
@@ -61,14 +57,10 @@ async def start_survey(message: Message):
 async def ask_survey_question(message: Message):
     user_id = message.from_user.id
     step = user_data[user_id]["survey_step"]
-    question, options = survey_questions[step]
-    kb_builder = ReplyKeyboardBuilder()
-    for option in options:
-        kb_builder.button(text=option)
-    keyboard = kb_builder.as_markup(resize_keyboard=True)
-    await message.answer(question, reply_markup=keyboard)
+    question = survey_questions[step]
+    await message.answer(question, reply_markup=types.ReplyKeyboardRemove())  # Убираем клавиатуру для ввода текста
 
-@dp.message(lambda message: message.text in [option for q, o in survey_questions for option in o])
+@dp.message(lambda message: message.from_user.id in user_data and "survey_step" in user_data[message.from_user.id])
 async def handle_survey_answer(message: Message):
     user_id = message.from_user.id
     step = user_data[user_id]["survey_step"]
@@ -80,6 +72,7 @@ async def handle_survey_answer(message: Message):
         await ask_survey_question(message)
     else:
         await message.answer("Спасибо за участие в опросе!", reply_markup=keyboard)
+        del user_data[user_id]  # Очищаем данные пользователя после завершения опроса
 
 # Обработчик кнопки "Пройти викторину"
 @dp.message(lambda message: message.text == 'Пройти викторину')
