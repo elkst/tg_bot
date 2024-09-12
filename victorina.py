@@ -115,6 +115,7 @@ async def handle_quiz_answer(message: Message):
         await message.answer(f"Викторина окончена! Вы ответили правильно на {correct_answers} из {total_questions} вопросов.", reply_markup=keyboard)
         del user_data[user_id]  # Очищаем данные пользователя после завершения викторины
 
+
 # Запуск бота
 if __name__ == '__main__':
     dp.run_polling(bot)
