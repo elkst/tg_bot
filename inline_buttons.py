@@ -12,7 +12,6 @@ dp = Dispatcher()
 
 # Обработчик команды /start
 async def start_command(message: types.Message):
-    # Замените URL на ваш web app
     web_app_url = "https://your-app-name.glitch.me/"  # Web App на Glitch
 
     # Создаем кнопку Web App
