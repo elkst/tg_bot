@@ -51,7 +51,7 @@ async def cmd_start(message: Message):
 # Обработчик кнопки "Пройти опрос"
 @dp.message(lambda message: message.text == 'Пройти опрос')
 async def start_survey(message: Message):
-    user_data[message.from_user.id] = {"survey_step": 0}
+    user_data[message.from_user.id] = {"survey_step": 0, "survey_answers": []}
     await ask_survey_question(message)
 
 async def ask_survey_question(message: Message):
@@ -64,20 +64,22 @@ async def ask_survey_question(message: Message):
 async def handle_survey_answer(message: Message):
     user_id = message.from_user.id
     step = user_data[user_id]["survey_step"]
-    user_data[user_id].setdefault("survey_answers", []).append(message.text)
+    user_data[user_id]["survey_answers"].append(message.text)
 
     # Если есть еще вопросы
     if step + 1 < len(survey_questions):
         user_data[user_id]["survey_step"] += 1
         await ask_survey_question(message)
     else:
-        await message.answer("Спасибо за участие в опросе!", reply_markup=keyboard)
+        # Выводим результаты опроса
+        results = "\n".join(f"{q}: {a}" for q, a in zip(survey_questions, user_data[user_id]["survey_answers"]))
+        await message.answer(f"Спасибо за участие в опросе!\nВаши ответы:\n{results}", reply_markup=keyboard)
         del user_data[user_id]  # Очищаем данные пользователя после завершения опроса
 
 # Обработчик кнопки "Пройти викторину"
 @dp.message(lambda message: message.text == 'Пройти викторину')
 async def start_quiz(message: Message):
-    user_data[message.from_user.id] = {"quiz_step": 0}
+    user_data[message.from_user.id] = {"quiz_step": 0, "correct_answers": 0}
     await ask_quiz_question(message)
 
 async def ask_quiz_question(message: Message):
@@ -97,6 +99,7 @@ async def handle_quiz_answer(message: Message):
     _, _, correct_answer = quiz_questions[step]
 
     if message.text == correct_answer:
+        user_data[user_id]["correct_answers"] += 1
         await message.answer("Правильно!")
     else:
         await message.answer(f"Неправильно. Правильный ответ: {correct_answer}")
@@ -106,7 +109,12 @@ async def handle_quiz_answer(message: Message):
         user_data[user_id]["quiz_step"] += 1
         await ask_quiz_question(message)
     else:
-        await message.answer("Викторина окончена!", reply_markup=keyboard)
+        # Выводим результаты викторины
+        total_questions = len(quiz_questions)
+        correct_answers = user_data[user_id]["correct_answers"]
+        await message.answer(f"Викторина окончена! Вы ответили правильно на {correct_answers} из {total_questions} вопросов.", reply_markup=keyboard)
+        del user_data[user_id]  # Очищаем данные пользователя после завершения викторины
+
 
 # Запуск бота
 if __name__ == '__main__':
