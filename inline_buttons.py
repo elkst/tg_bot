@@ -1,6 +1,6 @@
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from aiogram.filters import Command  # Импортируем Command для фильтрации команд
+from aiogram.filters import Command
 
 # Токен бота
 BOT_TOKEN = '6991693139:AAE0DwKMrLX27g9OY8sjhVDm9QQbRAaARqo'  # Замените на ваш токен
