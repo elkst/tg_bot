@@ -2,7 +2,7 @@ import requests
 import time
 
 API_URL = 'https://api.telegram.org/bot'
-BOT_TOKEN = '6991693139:AAG17hXLvCa_uNym25JCdsrvXri4J7zYAug'
+BOT_TOKEN = ''
 ERROR_TEXT = 'ERROR_404'
 
 offset = -2
