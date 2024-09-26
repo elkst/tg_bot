@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from aiogram.filters import Command
 
 # Токен бота
-BOT_TOKEN = '6991693139:AAE0DwKMrLX27g9OY8sjhVDm9QQbRAaARqo'  # Замените на ваш токен
+BOT_TOKEN = ''  # Замените на ваш токен
 
 # Создаем объекты бота и диспетчера
 bot = Bot(token=BOT_TOKEN)
